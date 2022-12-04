@@ -1,11 +1,8 @@
 import sys
 
-max_carrying = 0
-carrying = 0
-
+carrying, max_carrying = 0, 0
 
 for line in sys.stdin:
-    print(f'line: {line}')
     if line == '\n':
         if carrying > max_carrying:
             max_carrying = carrying

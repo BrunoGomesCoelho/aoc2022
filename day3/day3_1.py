@@ -1,6 +1,7 @@
 from sys import stdin
 
 total = 0
+a, A = ord('a'), ord('A')
 
 for line in stdin:
     halfway_point = len(line) // 2
@@ -10,9 +11,6 @@ for line in stdin:
     assert len(common) == 1
     char = common.pop()
 
-    if char.isupper():
-        total += ord(char) - 64 + 26
-    else:
-        total += ord(char) - 96
+    total += ord(char) - A + 27 if char.isupper() else ord(char) - a + 1
 
 print(total)

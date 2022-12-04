@@ -1,11 +1,5 @@
 import sys
 
-play_points = {
-    "X": 1,
-    "Y": 2,
-    "Z": 3,
-}
-
 win_points = {
     ("A", "X"): 3 + 0,
     ("A", "Y"): 1 + 3,
@@ -20,14 +14,4 @@ win_points = {
     ("C", "Z"): 1 + 6,
 }
 
-total = 0
-for line in sys.stdin:
-    player1, player2 = line.strip().split(" ")
-    total += win_points[(player1, player2)]
-
-print(total)
-
-
-
-
-
+print(sum(win_points[(line[0], line[2])] for line in sys.stdin))
