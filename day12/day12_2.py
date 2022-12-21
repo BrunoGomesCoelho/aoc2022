@@ -2,22 +2,15 @@ from sys import stdin
 import numpy as np
 from heapq import heappush, heappop
 
-board = []
-heap = []
+board, heap = [], []
 visited = set()
+
 
 def is_valid_pos(cur_pos, next_pos):
     if next_pos[0] < 0 or next_pos[0] >= board.shape[0] \
             or next_pos[1] < 0 or next_pos[1] >= board.shape[1]:
         return False
 
-    # fuck this crap
-    # if (next_pos[0], next_pos[1]) in visited:
-    #     return False
-
-    # c -> d
-    # c -> c
-    # c -> b
     if ord(board[next_pos[0], next_pos[1]]) > ord(board[cur_pos[0], cur_pos[1]])+1:
         return False
 
@@ -44,17 +37,17 @@ def find_shortest_path(start, end):
     cur_cost, cur_pos = heappop(heap)
     if (cur_pos[0], cur_pos[1]) not in visited:
         visited.add((cur_pos[0], cur_pos[1]))
-        print(f'popped pos {cur_pos}')
         push_adj(cur_pos, cur_cost)
 
     while (cur_pos != end).any() and heap:
         cur_cost, cur_pos = heappop(heap)
         if (cur_pos[0], cur_pos[1]) not in visited:
             visited.add((cur_pos[0], cur_pos[1]))
-            print(f'popped pos {cur_pos}')
             push_adj(cur_pos, cur_cost)
+
     if not heap:
         return float('inf')
+
     print(cur_pos)
     return cur_cost
 
@@ -74,10 +67,10 @@ print(f'start: {start_pos} end {end_pos}')
 print(board)
 
 mini = float('inf')
+
 for start_pos in np.argwhere(board == 'a'):
-    print(np.argwhere(board == 'a'))
-    print(start_pos)
-    visited = set()
-    heap = []
+    # good enough, no need to keep track of parents
+    heap, visited = [], set()
     mini = min(mini, find_shortest_path(start_pos, end_pos))
+
 print(mini)
