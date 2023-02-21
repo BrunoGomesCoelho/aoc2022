@@ -1,3 +1,4 @@
+from tqdm.auto import tqdm
 from sys import stdin
 
 def manhattan_dist(a, b):
@@ -29,24 +30,28 @@ def is_not_beacon(sensor, point):
     s_x, s_y, radius = sensor
     dist = manhattan_dist((s_x, s_y), point)
 
-    # < ?
     return dist <= radius
 
 
 #  print(extra_beacons)
 #  for y in range(-100, 100):
 print(sensors, extra_beacons)
-total = 0
 
+answer = None
 
-for x in range(0, 4_000_000):
-    for y in range(0, 4_000_000):
-        for sensor in sensors:
-            if is_not_beacon(sensor, (x, y)):
-                total += 1
-                break
+def get_point():
+    for x in tqdm(range(0, 4_000_000)):
+        y = 0
+        while y < 4_000_000:
+            for sensor in sensors:
+                s_x, s_y, radius = sensor
+                dist = manhattan_dist((s_x, s_y), (x,y))
 
-print(total - len(extra_beacons))
+                if dist <= radius:
+                    difference = radius - dist + 1
+                    y += difference
+                    break
+            else:
+                return x, y
 
-
-print(3*3585462)
+print(get_point())
